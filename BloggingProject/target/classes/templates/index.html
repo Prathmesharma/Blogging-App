@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog Posts</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: #1d2671;
+        }
+
+        .btn-custom {
+            border-radius: 30px;
+            padding: 10px 22px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-glass {
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        input.form-control {
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        input.form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(29, 38, 113, 0.25);
+            border-color: #1d2671;
+        }
+
+        table {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: #fff;
+        }
+
+        table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(195, 55, 100, 0.08);
+            transform: scale(1.01);
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <div class="main-container">
+
+        <h2 class="text-center mb-4">✨ All Blog Posts By Gappu</h2>
+
+        <!-- New Post Button -->
+        <div class="d-flex justify-content-end mb-4">
+            <a href="/new" class="btn btn-success btn-custom">
+                ➕ New Post
+            </a>
+        </div>
+
+        <!-- Update / Delete Card -->
+        <div class="card card-glass p-4 mb-5">
+            <h5 class="mb-3 text-primary fw-semibold">Update or Delete a Post</h5>
+
+            <div class="row g-3 align-items-center">
+                <div class="col-md-5">
+                    <input type="number" id="postIdInput" class="form-control" placeholder="Enter Post ID">
+                </div>
+                <div class="col-md-3">
+                    <button onclick="editPost()" class="btn btn-primary btn-custom w-100">
+                        ✏️ Edit
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button onclick="deletePost()" class="btn btn-danger btn-custom w-100">
+                        🗑 Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Table -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Content</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${listPosts}">
+                    <td th:text="${post.id}">1</td>
+                    <td th:text="${post.title}">Title</td>
+                    <td th:text="${post.author}">Author</td>
+                    <td th:text="${post.content}">Content</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+    function editPost() {
+        const id = document.getElementById("postIdInput").value;
+        if (id) {
+            window.location.href = "/edit/" + id;
+        } else {
+            alert("Please enter a valid Post ID.");
+        }
+    }
+
+    function deletePost() {
+        const id = document.getElementById("postIdInput").value;
+        if (id && confirm("Are you sure you want to delete post ID " + id + "?")) {
+            window.location.href = "/delete/" + id;
+        } else {
+            alert("Please enter a valid Post ID.");
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
